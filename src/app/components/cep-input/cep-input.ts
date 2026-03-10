@@ -11,12 +11,11 @@ import * as L from 'leaflet';
   templateUrl: './cep-input.html',
   styleUrl: './cep-input.css',
 })
-export class CepInput implements AfterViewInit {
+export class CepInput {
 
   cep: string = '';
-  endereco?: CepInterface;
-  malha: any;
-  map: any;
+  endereco: any;
+  malhaUrl: string = '';
 
   constructor(
     private cepService: CepService,
@@ -29,30 +28,15 @@ export class CepInput implements AfterViewInit {
     this.cepService.buscarCep(this.cep).subscribe((dados) => {
 
       this.endereco = dados;
+
       const codigoIbge = dados.ibge;
 
-      this.malhaService.buscarMalhaMunicipio(codigoIbge).subscribe((malha) => {
-
-        this.malha = malha;
-
-        L.geoJSON(malha as any).addTo(this.map);
-
-        console.log(malha);
-
-      });
-
+      this.malhaUrl =
+        `https://servicodados.ibge.gov.br/api/v4/malhas/municipios/${codigoIbge}?formato=image/svg+xml`;
+  this.cdr.detectChanges();
     });
 
   }
 
-  ngAfterViewInit() {
-
-    this.map = L.map('map').setView([-15, -55], 4);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap'
-    }).addTo(this.map);
-
-  }
 
 }

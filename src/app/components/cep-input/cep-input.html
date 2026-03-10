@@ -1,1 +1,12 @@
 <input type="text" placeholder="cep" [(ngModel)]="cep">
+<button (click)="getCep()" type="button">buscar</button>
+
+@if(endereco){
+<div>
+  <p>Rua: {{ endereco.logradouro }}</p>
+  <p>Bairro: {{ endereco.bairro }}</p>
+  <p>Cidade: {{ endereco.localidade }}</p>
+  <p>UF: {{ endereco.uf }}</p>
+</div>
+}
+

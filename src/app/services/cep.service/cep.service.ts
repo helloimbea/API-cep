@@ -1,10 +1,18 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { CepInterface } from '../../interfaces/cep.interface';
+
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CepService {
 
-  private apiUrl = 'https://viacep.com.br/ws/{cep}/json/';
+  constructor(private http: HttpClient) {}
+
+  buscarCep(cep: string) {
+    const url = `https://viacep.com.br/ws/${cep}/json/`;
+    return this.http.get<CepInterface>(url);
+  }
 
 }

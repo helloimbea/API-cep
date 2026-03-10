@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CepService } from '../../services/cep.service/cep.service';
+import { CepInterface } from '../../interfaces/cep.interface';
 
 @Component({
   selector: 'app-cep-input',
@@ -9,9 +11,18 @@ import { FormsModule } from '@angular/forms';
 })
 export class CepInput {
 
-cep: string = '';
+  cep: string = '';
+  endereco?: CepInterface;
 
-getCep() {
-  console.log(this.cep);
-}
+  constructor(private cepService: CepService) {}
+
+  getCep() {
+
+    this.cepService.buscarCep(this.cep).subscribe((dados) => {
+      this.endereco = dados;
+      console.log(dados);
+    });
+
+  }
+
 }

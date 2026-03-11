@@ -8,12 +8,13 @@
   min-height: 400px;
   display: flex;
   justify-content: center;
-  gap: 60px;
+  align-items: center;
+  gap: 80px; /* aumenta espaço entre os cards */
   background-color: rgb(115, 136, 179);
   width: 80%;
   border-radius: 10px;
-  align-items: center;
-  padding: 20px;
+  padding: 40px;
+  margin: 0 auto;
 }
 
 .header{

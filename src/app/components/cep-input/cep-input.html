@@ -10,12 +10,16 @@
 </div>
 </div>
 
+@if(endereco){
 <div class="info">
   <p>Rua: {{endereco.logradouro}}</p>
   <p>Bairro: {{endereco.bairro}}</p>
   <p>Cidade: {{endereco.localidade}}</p>
   <p>Estado: {{endereco.estado}}</p>
 </div>
+}@else {
+  <p>Aguardando dados...</p>
+}
 </section>
 
 

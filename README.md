@@ -1,59 +1,16 @@
 # BuscaCep
+BuscaCep é uma atividade de API's desenvolvida na Bosch durante as aulas de front-end com o professor Marcelo Petri.
+## Proposta
+Nossa proposta foi usar uma API de cep para encontrar as informações do cep que o usuário digitar e mostrar na tela, além de usar o código do IBGE para puxar a malha geográfica da cidade a partir da API de malhas geográficas do IBGE.
+## Desenvolvimento
+Para esse projeto escolhemos 2 API’s:   
+**Via cep** `https://viacep.com.br/ws/01001000/json/`  
+**IBGE malhas geográficas** `https://servicodados.ibge.gov.br/api/docs/malhas?versao=4`
+### Componentes
+**Cep-input:**  
+É o componente central do app, no arquivo.ts criamos a função responsável pela busca e armazenamento das informações nas variáveis criadas. Já no arquivo.html exibimos as informações e recebemos o cep digitado no input através do _ngModel_.  
+O cep-input.ts possui uma função principal: `getCep()`, responsável por chamar a função `buscaCep()` dentro do Service do CEP, enviando como parâmetro o cep digitado pelo usuário. Após isso, a função recebe os dados da API através do subscribe e armazena eles na variável ‘endereco’, criada para armazenar dados no formato da interface. Guardamos separadamente o código do IBGE recebido da API do cep e inserimos ele como parâmetro na url da API do IGBE, que fará a busca da malha geográfica, armazenando-a na variável malhaUrl.  
+O arquivo cep-input.html possui a seguinte função: recebe o cep digitado pelo usuário no input, através do ngModel e assim que o botão for clicado a função `getCep()` é executada. Se o cep digitado for válido as informações da API serão armazendas. Para exibir os dados utilizamos o `@if` com a variável ‘endereco’ como condição, exibindo os dados armazenados nela, um `@else` para um texto standby e um `@elseif(erro)` para casos de erro.  
+**map**  
+Esse componente é responsável por carregar a malha geográfica na tela.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

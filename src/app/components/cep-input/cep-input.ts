@@ -1,9 +1,7 @@
-import { ChangeDetectorRef, Component, AfterViewInit } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CepService } from '../../services/cep.service/cep.service';
 import { CepInterface } from '../../interfaces/cep.interface';
-import { MalhaService } from '../../services/malha.service/malha.service';
-
 
 @Component({
   selector: 'app-cep-input',
@@ -15,12 +13,10 @@ export class CepInput {
 
   cep: string = '';
   endereco!: CepInterface;
-  malhaUrl: string = '';
 
-  constructor(
-    private cepService: CepService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  @Output() mapaGerado = new EventEmitter<string>();
+
+  constructor(private cepService: CepService, private cdr: ChangeDetectorRef) {}
 
   getCep() {
 
@@ -30,12 +26,12 @@ export class CepInput {
 
       const codigoIbge = dados.ibge;
 
-      this.malhaUrl =
+      const malhaUrl =
         `https://servicodados.ibge.gov.br/api/v4/malhas/municipios/${codigoIbge}?formato=image/svg+xml`;
-  this.cdr.detectChanges();
+
+      this.mapaGerado.emit(malhaUrl);
+
     });
-
   }
-
-
 }
+

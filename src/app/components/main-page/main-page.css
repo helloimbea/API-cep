@@ -1,0 +1,31 @@
+.div{
+  display: flex;
+  justify-content: center;
+}
+.conteiner{
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  background-color:  rgb(115, 136, 179);
+  width: 80%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.header{
+  width: 100%;
+  background-color: rgb(101, 142, 255);
+  margin: 0 auto;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.header h1{
+  color: rgb(255, 255, 255);
+}
+
+

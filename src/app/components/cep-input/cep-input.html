@@ -1,20 +1,22 @@
-<section class="principal"></section>
-<input type="text" placeholder="cep" [(ngModel)]="cep">
-<button (click)="getCep()" type="button">buscar</button>
 
-@if(endereco){
-<div>
-  <p>Rua: {{ endereco.logradouro }}</p>
-  <p>Bairro: {{ endereco.bairro }}</p>
-  <p>Cidade: {{ endereco.localidade }}</p>
-  <p>UF: {{ endereco.uf }}</p>
-</div>
-}
-
-@if(malhaUrl){
-<div>
-  <img [src]="malhaUrl" style="width:400px">
+<section class="cep">
+  <div class="inputs">
+<div class="input-cep">
+<input type="text" placeholder="cep" [(ngModel)]="cep" class="input-box">
 </div>
 
-}
+<div class="button-div">
+<button class="button" (click)="getCep()" type="button">Buscar</button>
+</div>
+</div>
+
+<div class="info">
+  <p>Rua: Victor Muller</p>
+  <p>Bairro: Costa e Silva</p>
+  <p>Cidade: Joinville</p>
+  <p>UF: SC</p>
+</div>
+</section>
+
+
 

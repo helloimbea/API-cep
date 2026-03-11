@@ -1,2 +1,16 @@
-<h1>bem vindo</h1>
-<app-cep-input></app-cep-input>
+<div class="header">
+<h1>BuscaCep</h1>
+</div>
+
+<div class="div">
+<div class="conteiner">
+<section class="cep-input">
+<app-cep-input (mapaGerado)="receberMapa($event)"></app-cep-input>
+</section>
+
+<section class="map">
+  <app-map [malhaUrl]="malhaUrl"></app-map>
+</section>
+
+</div>
+</div>

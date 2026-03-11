@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CepService } from '../../services/cep.service/cep.service';
 import { CepInterface } from '../../interfaces/cep.interface';
 import { MalhaService } from '../../services/malha.service/malha.service';
-import * as L from 'leaflet';
+
 
 @Component({
   selector: 'app-cep-input',
@@ -14,12 +14,11 @@ import * as L from 'leaflet';
 export class CepInput {
 
   cep: string = '';
-  endereco: any;
+  endereco!: CepInterface;
   malhaUrl: string = '';
 
   constructor(
     private cepService: CepService,
-    private malhaService: MalhaService,
     private cdr: ChangeDetectorRef
   ) {}
 

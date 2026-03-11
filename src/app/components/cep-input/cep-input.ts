@@ -13,7 +13,7 @@ import { MalhaService } from '../../services/malha.service/malha.service';
 export class CepInput {
 
   cep: string = '';
-  endereco!: CepInterface;
+  endereco?: CepInterface;
   erro: string = '';
   loading: boolean = false;
 
@@ -24,7 +24,7 @@ export class CepInput {
   getCep() {
 
     this.erro = '';
-
+  this.loading = true;
     this.cepService.buscarCep(this.cep).subscribe({
 
       next: (dados) => {
@@ -32,6 +32,7 @@ export class CepInput {
 
         if (!dados || !dados.ibge) {
           this.erro = "CEP não encontrado.";
+          this.endereco = undefined as any;
           this.cdr.detectChanges();
           return;
         }

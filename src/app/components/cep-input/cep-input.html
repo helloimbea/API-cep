@@ -17,9 +17,9 @@
   <p>Cidade: {{endereco.localidade}}</p>
   <p>Estado: {{endereco.estado}}</p>
 </div>
-}@if (erro){
+}@else if (erro){
 <p class="erro">{{ erro }}</p>
-}@if(loading){
+}@else if(loading){
   <p>loading...</p>
 }
 </section>

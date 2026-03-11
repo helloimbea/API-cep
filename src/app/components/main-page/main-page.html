@@ -8,9 +8,10 @@
 <app-cep-input (mapaGerado)="receberMapa($event)"></app-cep-input>
 </section>
 
+@if(malhaUrl){
 <section class="map">
   <app-map [malhaUrl]="malhaUrl"></app-map>
 </section>
-
+}
 </div>
 </div>

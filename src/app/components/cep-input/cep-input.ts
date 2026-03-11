@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter, ChangeDetectorRef } from '@angular/cor
 import { FormsModule } from '@angular/forms';
 import { CepService } from '../../services/cep.service/cep.service';
 import { CepInterface } from '../../interfaces/cep.interface';
+import { MalhaService } from '../../services/malha.service/malha.service';
 
 @Component({
   selector: 'app-cep-input',
@@ -13,25 +14,44 @@ export class CepInput {
 
   cep: string = '';
   endereco!: CepInterface;
+  erro: string = '';
+  loading: boolean = false;
 
   @Output() mapaGerado = new EventEmitter<string>();
 
-  constructor(private cepService: CepService, private cdr: ChangeDetectorRef) {}
+  constructor(private cepService: CepService, private cdr: ChangeDetectorRef, private malhaService: MalhaService) {}
 
   getCep() {
 
-    this.cepService.buscarCep(this.cep).subscribe((dados) => {
+    this.erro = '';
 
-      this.endereco = dados;
+    this.cepService.buscarCep(this.cep).subscribe({
 
-      const codigoIbge = dados.ibge;
+      next: (dados) => {
+        this.loading = false;
 
-      const malhaUrl =
-        `https://servicodados.ibge.gov.br/api/v4/malhas/municipios/${codigoIbge}?formato=image/svg+xml`;
+        if (!dados || !dados.ibge) {
+          this.erro = "CEP não encontrado.";
+          this.cdr.detectChanges();
+          return;
+        }
 
-      this.mapaGerado.emit(malhaUrl);
+        this.endereco = dados;
+
+        const malhaUrl = this.malhaService.getMalhaUrl(dados.ibge);
+
+        this.mapaGerado.emit(malhaUrl);
+        this.cdr.detectChanges();
+      },
+
+      error: () => {
+         this.loading = false;
+        this.erro = "Erro ao buscar o CEP.";
+        this.cdr.detectChanges();
+      }
 
     });
+
   }
 }
 

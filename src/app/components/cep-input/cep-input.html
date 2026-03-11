@@ -2,7 +2,7 @@
 <section class="cep">
   <div class="inputs">
 <div class="input-cep">
-<input type="text" placeholder="cep" [(ngModel)]="cep" class="input-box">
+<input type="text" placeholder="Digite um cep" [(ngModel)]="cep" class="input-box">
 </div>
 
 <div class="button-div">
@@ -17,8 +17,10 @@
   <p>Cidade: {{endereco.localidade}}</p>
   <p>Estado: {{endereco.estado}}</p>
 </div>
-}@else {
-  <p>Aguardando dados...</p>
+}@if (erro){
+<p class="erro">{{ erro }}</p>
+}@if(loading){
+  <p>loading...</p>
 }
 </section>
 

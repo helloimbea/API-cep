@@ -1,6 +1,6 @@
 .cep{
-  width: 600px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
   padding: 30px;
   display: flex;
   gap: 40px;
@@ -73,4 +73,23 @@ button:active{
 .info p{
   margin: 8px 0;
   font-size: 14px;
+}
+
+@media (max-width: 1024px){
+
+  .cep{
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .inputs{
+    width: 100%;
+  }
+
+  .info{
+    width: 100%;
+  }
+
+
 }

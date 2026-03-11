@@ -1,5 +1,6 @@
 .mapa{
-  width: 420px;
+  width: 100%;
+  max-width: 420px;
   padding: 20px;
   background: white;
   border-radius: 16px;
@@ -10,6 +11,13 @@
   gap: 15px;
 }
 
+.mapa img{
+  width: 100%;
+  max-width: 380px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
 .mapa p{
   font-size: 18px;
   font-weight: 600;
@@ -17,9 +25,11 @@
   color: #333;
 }
 
-.mapa img{
-  width: 100%;
-  max-width: 380px;
-  border-radius: 10px;
-  border: 1px solid #eee;
+@media (max-width: 1024px){
+
+
+  .mapa{
+    width: 100%;
+  }
+
 }

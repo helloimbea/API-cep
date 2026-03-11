@@ -1,31 +1,42 @@
 .div{
   display: flex;
   justify-content: center;
+  padding: 20px;
 }
+
 .conteiner{
-  height: 400px;
+  min-height: 400px;
   display: flex;
   justify-content: center;
-  gap: 100px;
-  background-color:  rgb(115, 136, 179);
+  gap: 60px;
+  background-color: rgb(115, 136, 179);
   width: 80%;
   border-radius: 10px;
-  display: flex;
   align-items: center;
+  padding: 20px;
 }
 
 .header{
   width: 100%;
   background-color: rgb(101, 142, 255);
-  margin: 0 auto;
-  z-index: 0;
   display: flex;
   justify-content: center;
-  margin-bottom: 100px;
+  margin-bottom: 60px;
+  padding: 20px;
 }
 
 .header h1{
-  color: rgb(255, 255, 255);
+  color: white;
+  text-align: center;
 }
 
+@media (max-width: 1024px){
 
+  .conteiner{
+    flex-direction: column;
+    gap: 40px;
+    width: 90%;
+  }
+
+
+}

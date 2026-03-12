@@ -3,7 +3,7 @@ BuscaCep é uma atividade de API's no Angular desenvolvida na Bosch durante as a
 ## Proposta
 Nossa proposta foi usar uma API de cep para encontrar as informações do cep que o usuário digitar e mostrar na tela, além de usar o código do IBGE para puxar a malha geográfica da cidade a partir da API de malhas geográficas do IBGE.  
   
-![print buscacep](../img/buscacep.jpeg)
+![print buscacep](img/buscacep.jpeg)
 ## Desenvolvimento
 Para esse projeto escolhemos 2 API’s:   
 **Via cep** `https://viacep.com.br/ws/01001000/json/`  

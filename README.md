@@ -10,11 +10,22 @@ Para esse projeto escolhemos 2 API’s:
 **IBGE malhas geográficas** `https://servicodados.ibge.gov.br/api/docs/malhas?versao=4`
 ### Componentes
 - **Cep-input:**  
-É o componente central do app, no arquivo.ts criamos a função responsável pela busca e armazenamento das informações nas variáveis criadas. Já no arquivo.html exibimos as informações e recebemos o cep digitado no input através do _ngModel_.  
-O cep-input.ts possui uma função principal: `getCep()`, responsável por chamar a função `buscaCep()` dentro do Service do CEP, enviando como parâmetro o cep digitado pelo usuário. Após isso, a função recebe os dados da API através do subscribe e armazena eles na variável ‘endereco’, criada para armazenar dados no formato da interface. Guardamos separadamente o código do IBGE recebido da API do cep e inserimos ele como parâmetro na url da API do IGBE, que fará a busca da malha geográfica, armazenando-a na variável malhaUrl.  
-O arquivo cep-input.html possui a seguinte função: recebe o cep digitado pelo usuário no input, através do ngModel e assim que o botão for clicado a função `getCep()` é executada. Se o cep digitado for válido as informações da API serão armazendas. Para exibir os dados utilizamos o `@if` com a variável ‘endereco’ como condição, em caso de problemas usamos `@elseif(erro)` para exibir uma mensagem de erro e um `@else` para um texto standby. 
+O componente **cep-input** é o componente central da aplicação, responsável por receber o CEP digitado pelo usuário, buscar as informações do endereço na API e preparar os dados que serão exibidos na interface.  
+O arquivo **cep-input.html** é responsável pela interface do componente. Nele, o usuário pode digitar o CEP em um campo de input que está ligado à variável cep através do _**ngModel**_. Quando o botão de busca é clicado, a função `getCep()` é executada. 
+No arquivo **cep-input.ts** estão definidas as variáveis e a função responsável por realizar a busca do CEP. A principal função do componente é `getCep()`, que chama o método `buscarCep()` presente no **CepService**, enviando como parâmetro o CEP digitado pelo usuário.  
+Quando a requisição é realizada, a função recebe a resposta da API através do `subscribe()`. Os dados retornados são então armazenados na variável endereco, que segue o formato definido pela interface **CepInterface**. Além das informações do endereço, a resposta da API também contém o código IBGE do município, permitindo que o componente responsável pelo mapa possa carregar a imagem da malha.  
+Para exibir os resultados na tela, são utilizadas diretivas condicionais. Quando o CEP é válido e os dados são retornados corretamente, as informações do endereço armazenadas na variável endereco são exibidas. Caso ocorra algum erro, é mostrada uma mensagem de erro através da variável erro. Durante o tempo de resposta da requisição, também pode ser exibida uma mensagem de loading, indicando que a busca ainda está em andamento.
 - **Map:**  
-Esse componente é responsável por carregar a malha geográfica na tela.
+Esse componente é responsável por exibir a malha geográfica do município na tela.  
+Primeiro, o componente **cep-input** faz a busca do CEP usando o **cep.service**. Quando a API retorna os dados do endereço, ele pega o **código IBGE** do cep.  
+Esse código IBGE é enviado para o **malha.service**, que monta a URL da malha geográfica do município utilizando o código. O service então retorna essa URL para o componente **cep-input**.  
+Depois disso, o **cep-input** usa um `@Output()` para enviar essa URL para o componente pai, que é o **main-page**.  
+O **main-page** recebe essa URL e a passa para o componente map através do HTML usando data binding: `<app-map [malhaUrl]="malhaUrl"></app-map>`  
+No componente **map.ts**, essa variável é recebida usando` @Input()`.
+Por fim, o map.html usa essa URL como fonte da imagem: `<img [src]="malhaUrl" style="width:400px">`  
+Esse binding faz com que a imagem da malha geográfica do município seja carregada e exibida na tela.
+
+
 **main-page**
 O main-page é o pai que vai juntar e carregar o componente cep-input e o map na tela.
 ### Services

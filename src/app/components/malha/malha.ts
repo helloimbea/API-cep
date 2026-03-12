@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-map',
+  selector: 'app-malha',
   imports: [],
-  templateUrl: './map.html',
-  styleUrl: './map.css',
+  templateUrl: './malha.html',
+  styleUrl: './malha.css',
 })
-export class MapComponent {
+export class MalhaComponent {
 
   @Input() malhaUrl: string = '';
 

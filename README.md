@@ -1,36 +1,200 @@
-# BuscaCep
-BuscaCep é uma atividade de API's no Angular desenvolvida na Bosch durante as aulas de front-end com o professor Marcelo Petri. Desenvolvido por Beatriz e Ana Julya.
-## Proposta
-Nossa proposta foi usar uma API de cep para encontrar as informações do cep que o usuário digitar e mostrar na tela, além de usar o código do IBGE para puxar a malha geográfica da cidade a partir da API de malhas geográficas do IBGE.  
-  
-![print buscacep](img/buscacep.jpeg)
-## Desenvolvimento
-Para esse projeto escolhemos 2 API’s:   
-**Via cep** `https://viacep.com.br/ws/01001000/json/`  
-**IBGE malhas geográficas** `https://servicodados.ibge.gov.br/api/docs/malhas?versao=4`
-### Componentes
-- **CEP-INPUT:**  
-O componente **cep-input** é o componente central da aplicação, responsável por receber o CEP digitado pelo usuário, buscar as informações do endereço na API e preparar os dados que serão exibidos na interface.  
-O arquivo **cep-input.html** é responsável pela interface do componente. Nele, o usuário pode digitar o CEP em um campo de input que está ligado à variável cep através do _**ngModel**_. Quando o botão de busca é clicado, a função `getCep()` é executada. 
-No arquivo **cep-input.ts** estão definidas as variáveis e a função responsável por realizar a busca do CEP. A principal função do componente é `getCep()`, que chama o método `buscarCep()` presente no **CepService**, enviando como parâmetro o CEP digitado pelo usuário.  
-Quando a requisição é realizada, a função recebe a resposta da API através do `subscribe()`. Os dados retornados são então armazenados na variável endereco, que segue o formato definido pela interface **CepInterface**. Além das informações do endereço, a resposta da API também contém o código IBGE do município, permitindo que o componente responsável pelo mapa possa carregar a imagem da malha.  
-Para exibir os resultados na tela, são utilizadas diretivas condicionais. Quando o CEP é válido e os dados são retornados corretamente, as informações do endereço armazenadas na variável endereco são exibidas. Caso ocorra algum erro, é mostrada uma mensagem de erro através da variável erro. Durante o tempo de resposta da requisição, também pode ser exibida uma mensagem de loading, indicando que a busca ainda está em andamento.
-- **MALHA:**  
-Esse componente é responsável por exibir a malha geográfica do município na tela.  
-Primeiro, o componente **cep-input** faz a busca do CEP usando o **cep.service**. Quando a API retorna os dados do endereço, ele pega o **código IBGE** do cep.  
-Esse código IBGE é enviado para o **malha.service**, que monta a URL da malha geográfica do município utilizando o código. O service então retorna essa URL para o componente **cep-input**.  
-Depois disso, o **cep-input** usa um `@Output()` para enviar essa URL para o componente pai, que é o **main-page**.  
-O **main-page** recebe essa URL e a passa para o componente malha através do HTML usando data binding: `<app-malha [malhaUrl]="malhaUrl"></app-malha>`  
-No componente **malha.ts**, essa variável é recebida usando` @Input()`.
-Por fim, o **malha.html** usa essa URL como fonte da imagem: `<img [src]="malhaUrl" style="width:400px">`  
-Esse binding faz com que a imagem da malha geográfica do município seja carregada e exibida na tela.  
-- **MAIN-PAGE:**
-O componente **main-page** funciona como o componente pai da aplicação, sendo responsável por organizar a estrutura principal da interface e intermediar a comunicação entre os outros componentes.  
-Ele carrega os componentes **cep-input e malha**, que possuem funções diferentes dentro do sistema. Enquanto o **cep-input** é responsável por receber o CEP digitado pelo usuário e buscar as informações do endereço, o **malha** é responsável por exibir a malha geográfica do município correspondente.  
-Para que esses dois componentes possam trocar informações, o **main-page** atua como intermediário. Quando o componente **cep-input** obtém o código do IBGE e gera a URL da malha geográfica, ele envia essa informação para o componente pai através de um `@Output()`. O **main-page** recebe esse valor e o armazena em uma variável.  
-Em seguida, essa mesma variável é passada para o componente **malha** através de data binding no HTML, utilizando a sintaxe `[malhaUrl]="malhaUrl"`. Dessa forma, o componente **malha** consegue receber a URL e utilizá-la para carregar e exibir a imagem da malha geográfica na tela.  
-Assim, o **main-page** tem como principal função estruturar a página e gerenciar a comunicação entre os componentes, garantindo que os dados obtidos na busca do CEP possam ser utilizados corretamente para mostrar o mapa do município.
- ## Considerações finais
-A atividade foi muito enriquecedora, pois permitiu aprofundar o conhecimento sobre o consumo de APIs em aplicações web. Durante o desenvolvimento, foi possível trabalhar com a integração de duas APIs diferentes, em que os dados obtidos da primeira foram utilizados como base para realizar a consulta na segunda. Essa dependência entre as requisições tornou o desafio mais interessante, pois exigiu compreender como manipular e reutilizar as informações recebidas para gerar novos resultados na aplicação.  
-Além disso, tivemos a oportunidade de conhecer e aplicar novos recursos do Angular, como os decorators `@Output()` e `@Input()`, que permitem a comunicação entre componentes. Com isso, também foi possível compreender melhor o conceito de componentes pai e filho, entendendo como os dados podem ser compartilhados entre diferentes partes da aplicação de forma organizada e estruturada.  
-No geral, tivemos facilidade em construir a base da aplicação, sendo a única dificuldade a integração das APIs entre si usando os services. Escolhemos APIs simples justamente para facilitar o aprendizado e nos permitir finalizar uma boa página web com calma e insights de verdade, entendendo cada passo que tomamos e refletindo sobre nossas escolhas.
+# 📍 BuscaCEP
+
+A web application built with **Angular** that allows users to search for a Brazilian ZIP code (CEP) and display both the address information and the municipality's geographic boundary.
+
+This project was developed during the **Front-end classes at Bosch**, taught by **Marcelo Petri**, by **Beatriz Heimann** and **Ana Julya**.
+
+---
+
+## ✨ Features
+
+- Search any Brazilian CEP
+- Display address information using the ViaCEP API
+- Display the municipality's geographic boundary using the IBGE API
+- Responsive and intuitive interface
+- Component-based architecture with Angular
+
+---
+
+## 📸 Preview
+
+![BuscaCEP Screenshot](img/buscacep.jpeg)
+
+---
+
+## 🛠 Technologies
+
+- Angular
+- TypeScript
+- HTML5
+- CSS3
+- Bootstrap
+- RxJS
+- ViaCEP API
+- IBGE Geographic Boundaries API
+
+---
+
+## 🌐 APIs Used
+
+### ViaCEP
+
+Retrieves address information from a Brazilian ZIP code.
+
+https://viacep.com.br/
+
+### IBGE Geographic Boundaries API
+
+Retrieves the municipality boundary using the IBGE code returned by ViaCEP.
+
+https://servicodados.ibge.gov.br/api/docs/malhas?versao=4
+
+---
+
+## 🏗 Architecture
+
+The application is divided into three main components.
+
+### CEP Input
+
+Responsible for:
+
+- Receiving the CEP entered by the user
+- Requesting address information from the ViaCEP API
+- Obtaining the municipality IBGE code
+- Sending the geographic boundary URL to the parent component
+
+### Main Page
+
+Acts as the parent component.
+
+Its responsibilities are:
+
+- Managing communication between components
+- Receiving the geographic boundary URL
+- Passing the URL to the map component
+
+### Map (Malha)
+
+Responsible for displaying the municipality boundary image returned by the IBGE API.
+
+---
+
+## 🚀 Running the Project
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/BuscaCep.git
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+ng serve
+```
+
+Open your browser at:
+
+```
+http://localhost:4200
+```
+
+---
+
+## 📚 What I Learned
+
+This project helped me practice:
+
+- Consuming REST APIs with Angular
+- Using Angular Services
+- Working with Observables and RxJS
+- Parent-child communication using `@Input()` and `@Output()`
+- Component architecture
+- API integration
+- Data binding
+- TypeScript interfaces
+
+---
+
+## 👨‍💻 Authors
+
+- Beatriz Heimann
+- Ana Julya
+
+---
+
+## 💡 Project Goal
+
+The main goal of this project was to learn how to consume multiple APIs within an Angular application.
+
+The application demonstrates how data retrieved from one API (ViaCEP) can be reused to perform a second request to another API (IBGE), reinforcing concepts such as API integration, component communication, and service-based architecture.
+
+# 📖 Detailed Documentation
+
+<details>
+<summary>Click to expand the detailed implementation</summary>
+
+## Component Architecture
+
+### CEP Input
+
+The **CEP Input** component is the core of the application. It receives the ZIP code entered by the user, requests the address information from the ViaCEP API, and prepares the data to be displayed.
+
+The interface (`cep-input.html`) contains an input field bound to the `cep` variable using `ngModel`. When the search button is clicked, the `getCep()` method is executed.
+
+In `cep-input.ts`, the `getCep()` method calls `buscarCep()` from `CepService`, passing the ZIP code entered by the user. The API response is handled through `subscribe()`, and the returned data is stored in the `endereco` variable, which follows the `CepInterface` structure.
+
+The response also includes the municipality's **IBGE code**, which is later used to retrieve the geographic boundary image.
+
+Conditional rendering is used to display the address information, loading state, or error messages depending on the request result.
+
+---
+
+### Map Component
+
+The **Map** component is responsible for displaying the municipality's geographic boundary.
+
+After the address is retrieved, the **IBGE code** is sent to `MalhaService`, which generates the URL for the municipality boundary image using the IBGE API.
+
+The resulting URL is emitted from the **CEP Input** component using `@Output()` and received by the parent component.
+
+The parent then passes this URL to the **Map** component through property binding:
+
+```html
+<app-malha [malhaUrl]="malhaUrl"></app-malha>
+```
+
+Inside `malha.ts`, the value is received using `@Input()`, and `malha.html` displays the image by binding the URL to the `src` attribute of an `<img>` element.
+
+---
+
+### Main Page
+
+The **Main Page** acts as the parent component of the application.
+
+Its primary responsibility is to coordinate communication between the **CEP Input** and **Map** components.
+
+When the CEP Input component generates the geographic boundary URL, it emits the value using `@Output()`. The Main Page stores this value and passes it to the Map component through property binding, allowing the correct geographic boundary to be displayed.
+
+This architecture keeps the components independent while enabling efficient data sharing through Angular's parent-child communication.
+
+---
+
+## Final Considerations
+
+This project provided valuable experience in consuming REST APIs with Angular and integrating multiple services within the same application.
+
+One of the main learning points was using the data returned from one API (ViaCEP) to perform a second request to another API (IBGE), creating a dependency between the two requests.
+
+The project also reinforced Angular concepts such as **Services**, **Observables**, `@Input()`, `@Output()`, and parent-child component communication.
+
+Although integrating the APIs through services was the most challenging part, choosing simple APIs allowed us to focus on understanding the development process and building a well-structured application.
+
+</details>
